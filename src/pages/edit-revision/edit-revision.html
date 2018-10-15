@@ -1,0 +1,85 @@
+<!--
+  Generated template for the EditRevisionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+      <div class="header-titulo">Editar Revision</div>      
+      <button ion-button (click)="preguntarSalirSinGuardar();" class="btn-cerrar" clear><ion-icon class="icono-btn" name="close"></ion-icon></button>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="Guardar()">
+    <ion-item>
+      <ion-label>Fecha de Revisión</ion-label>
+      <ion-input type="date" [(ngModel)]="revision.fecha" name="fecha" value="2007-01-01"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Cultivo Anterior</ion-label>        
+      <ion-input type="text" [(ngModel)]="revision.cultivo" name="cultivo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Fecha de Siembra</ion-label>
+      <ion-input type="date" [(ngModel)]="revision.fechaSiembra" name="fechaSiembra" value="2007-01-01"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Plaguicida Clorado</ion-label>
+      <ion-select name="plaguicidaClorado" [(ngModel)]="revision.plaguicidaClorado" [ngModelOptions]="{standalone: true}">
+        <ion-option  [value]="si">
+          SI
+        </ion-option>
+        <ion-option  [value]="no" selected>
+          NO 
+        </ion-option>
+      </ion-select>      
+    </ion-item>
+
+    
+    <ion-item>      
+      <ion-label>Funguicida</ion-label>
+      <ion-input type="text" [(ngModel)]="revision.funguicida" name="funguicida" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Biorregulador</ion-label>
+      <ion-input type="text" [(ngModel)]="revision.biorregulador" name="biorregulador" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Polimero</ion-label>
+      <ion-input type="text" [(ngModel)]="revision.polimero" name="polimero" value=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Variedad</ion-label>
+      <ion-select name="variedad" [(ngModel)]="revision.variedad" [ngModelOptions]="{standalone: true}">
+        <ion-option  *ngFor="let variedad of variedades" [value]="variedad.DS_PRODUCTO">
+          {{variedad.DS_PRODUCTO}}
+        </ion-option>        
+      </ion-select> 
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Fecha Arrancado</ion-label>
+      <ion-input type="date" [(ngModel)]="revision.fechaArrancado" name="fechaArrancado" value="2007-01-01"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Densidad (semillas/metro)</ion-label>
+      <ion-input type="text" [(ngModel)]="revision.densidad" name="densidad" value=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Fecha Cosecha</ion-label>
+      <ion-input type="date" [(ngModel)]="revision.fechaCosecha" name="fechaCosecha" value="2007-01-01"></ion-input>
+    </ion-item>
+
+    <button ion-button type="submit" block>Guardar</button>
+  </form>
+</ion-content>

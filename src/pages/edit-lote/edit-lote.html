@@ -1,0 +1,106 @@
+<!--
+  Generated template for the EditLotePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>  
+    <ion-navbar>
+      <ion-title>
+        {{titulo}}
+      </ion-title>   
+      <ion-buttons end>      
+        <button ion-button icon-only (click)="preguntarSalirSinGuardar();">
+          <ion-icon class="icono-btn" name="close">
+          </ion-icon>
+        </button>      
+      </ion-buttons>    
+    </ion-navbar>
+  </ion-header>
+
+
+<ion-content >
+  
+    <form>
+
+      <ion-item>
+        <ion-label color="primary" stacked>Nombre</ion-label>
+        <ion-input type="text" [(ngModel)]="lote.lote" name="lote" value="" placeholder="Ingresar Nombre"></ion-input>
+      </ion-item>
+      
+      <!--ion-item>
+        <ion-label color="primary" stacked>Campaña</ion-label>
+          <ion-select name="campana" [(ngModel)]="lote.idCampana" [ngModelOptions]="{standalone: true}"> 
+              <ion-option *ngFor="let campana of campanas" [value]="campana.id">
+              {{campana.nombre}}
+              </ion-option>
+          </ion-select>      
+      </ion-item-->    
+
+      <ion-item>
+        <ion-label color="primary" stacked>Superficie (Has)</ion-label>
+        <ion-input type="number" [(ngModel)]="lote.superficie" name="superficie" value="" placeholder="Hectareas"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label color="primary" stacked>Cultivo</ion-label>
+          <ion-select name="cultivo" [(ngModel)]="lote.ultimaRevision.cultivo" [ngModelOptions]="{standalone: true}">
+            <ion-option *ngFor="let cultivo of cultivos" [value]="cultivo.nombre">
+              {{cultivo.nombre}}
+            </ion-option>
+          </ion-select>      
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary" stacked>Fecha de Siembra</ion-label>
+          <ion-input type="date" [(ngModel)]="lote.ultimaRevision.fechaSiembra" name="fechaSiembra" value="2007-01-01"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary" stacked>Plaguicida Clorado</ion-label>
+          <ion-select name="plaguicidaClorado" [(ngModel)]="lote.ultimaRevision.plaguicidaClorado" [ngModelOptions]="{standalone: true}">
+            <ion-option *ngFor="let plaguicida of plaguicidas" [value]="plaguicida.nombre">
+              {{plaguicida.nombre}}
+            </ion-option>
+          </ion-select>      
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary" stacked>Tratamiento</ion-label>
+          <ion-input type="text" [(ngModel)]="lote.ultimaRevision.tratamiento" name="tratamiento" value="" placeholder="Ingrese Tratamiento"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary" stacked>Variedad</ion-label>
+          <ion-input type="text" [(ngModel)]="lote.ultimaRevision.variedad" name="variedad" value="" placeholder="Ingrese Variedad"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary" stacked>Fecha Arrancado</ion-label>
+          <ion-input type="date" [(ngModel)]="lote.ultimaRevision.fechaArrancado" name="fechaArrancado" value="2007-01-01"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary" stacked>Densidad (semillas/metro)</ion-label>
+          <ion-input type="text" [(ngModel)]="lote.ultimaRevision.densidad" name="densidad" value="" placeholder="Ingrese Densidad"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label color="primary" stacked>Fecha Cosecha</ion-label>
+          <ion-input type="date" [(ngModel)]="lote.ultimaRevision.fechaCosecha" name="fechaCosecha" value="2007-01-01"></ion-input>
+        </ion-item>
+    
+        <ion-row>
+          <ion-col>
+              <button ion-button (click)="Cancelar();" block>Cancelar</button>
+          </ion-col>
+          <ion-col>           
+              <button ion-button (click)="Guardar();" block>Guardar</button>
+          </ion-col>
+        </ion-row> 
+
+      
+      
+    </form>
+</ion-content>

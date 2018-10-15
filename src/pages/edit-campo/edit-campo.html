@@ -1,0 +1,60 @@
+<!--
+  Generated template for the EditEstablecimientoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>  
+    <ion-navbar>
+      <ion-title>
+        {{titulo}}
+      </ion-title>   
+      <ion-buttons end>      
+        <button ion-button icon-only (click)="preguntarSalirSinGuardar();">
+          <ion-icon class="icono-btn" name="close">
+          </ion-icon>
+        </button>      
+      </ion-buttons>    
+    </ion-navbar>
+  </ion-header>
+
+
+<ion-content>
+   
+
+        <ion-item>
+            <ion-label color="primary" stacked>Nombre</ion-label>
+          <ion-input type="text" [(ngModel)]="establecimiento.establecimiento" name="establecimiento" value="" placeholder="Nombre"></ion-input>
+        </ion-item>
+        <ion-item>      
+          <input id="localidad-input" [(ngModel)]="establecimiento.ubicacion" class="controls" type="text" placeholder="Ingresar Ubicación">
+        </ion-item>  
+         
+          <!--ion-item>
+            <ion-label color="primary" stacked>Departamento</ion-label>
+            <ion-select name="departamento" [(ngModel)]="establecimiento.departamento" [ngModelOptions]="{standalone: true}"> 
+              <ion-option *ngFor="let departamento of departamentos" [value]="departamento.nombre">
+                {{departamento.nombre}}
+              </ion-option>
+            </ion-select>      
+          </ion-item>
+
+     
+          <ion-item>
+            <ion-label color="primary" stacked>Localidad</ion-label>
+            <ion-select name="localidad" [(ngModel)]="establecimiento.localidad" [ngModelOptions]="{standalone: true}"> 
+              <ion-option *ngFor="let localidad of localidads" [value]="localidad.nombre">
+                {{localidad.nombre}}
+              </ion-option>
+            </ion-select>      
+          </ion-item-->
+          <ion-row>
+            <ion-col>
+                <button ion-button (click)="Cancelar();" block>Cancelar</button>
+            </ion-col>
+            <ion-col>           
+                <button ion-button (click)="Guardar();" block>Guardar</button>
+            </ion-col>
+          </ion-row> 
+       
+</ion-content>

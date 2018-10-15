@@ -1,0 +1,52 @@
+
+<ion-header>  
+    <ion-navbar>
+      <ion-title>
+        Editar Campañas
+      </ion-title>   
+      <ion-buttons end>      
+        <button ion-button icon-only (click)="Cancelar()">
+          <ion-icon class="icono-btn" name="close">
+          </ion-icon>
+        </button>      
+      </ion-buttons>    
+    </ion-navbar>
+  </ion-header>
+
+
+  <ion-content padding>
+    
+    <!--ion-item>
+      <ion-label color="primary" stacked>Campaña</ion-label>
+        <ion-select name="campana" [(ngModel)]="campanaSeleccionada" [ngModelOptions]="{standalone: true}"> 
+            <ion-option *ngFor="let campana of campanas" [value]="campana">
+            {{campana.nombre}}
+            </ion-option>
+        </ion-select>      
+    </ion-item-->   
+     
+    <ion-item *ngIf="agregarNuevo">
+        <ion-label color="primary" stacked>Nombre Campaña</ion-label>      
+          <ion-input type="text" [(ngModel)]="nuevaCampana.nombre" name="nombre" value="" placeholder="Ingrese el nombre de la campaña"></ion-input>
+    </ion-item>   
+
+    <ion-row *ngIf="agregarNuevo" >
+      <ion-col>
+          <button ion-button (click)="Cancelar();" block>Cancelar</button>
+      </ion-col>
+      <ion-col>           
+          <button ion-button  (click)="NuevoItem();">Guardar</button>  
+      </ion-col>
+    </ion-row> 
+
+    <ion-row *ngIf="!agregarNuevo" >
+      <!--ion-col>
+        <button (click)="Borrar();" *ngIf="!agregarNuevo" ion-button block>Borrar Campaña Seleccionada</button>
+      </ion-col-->
+                 
+        <button (click)="VerNuevoInput();" *ngIf="!agregarNuevo" ion-button block>Nueva Campaña</button>
+      
+    
+        <!--button (click)="Seleccionar();" *ngIf="!agregarNuevo" ion-button block>Seleccionar</button-->
+    </ion-row> 
+  </ion-content>

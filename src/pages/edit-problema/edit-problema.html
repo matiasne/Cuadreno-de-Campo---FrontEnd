@@ -1,0 +1,38 @@
+<!--
+  Generated template for the EditProblemaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{titulo}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form (ngSubmit)="Guardar()">
+    <!-- Aca va a faltar agregar imagen-->
+    <ion-item>
+      <ion-label>Tipo de Problema</ion-label>
+      <ion-select name="problema" [(ngModel)]="problema.idTipo" [ngModelOptions]="{standalone: true}"> 
+        <ion-option *ngFor="let tipoProblema of tiposProblemas" [value]="tipoProblema.id">
+          {{tipoProblema.nombre}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>     
+      <ion-label>Nombre</ion-label> 
+      <ion-input type="text" [(ngModel)]="problema.nombre" name="nombre" value=""></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descripción</ion-label>
+      <ion-textarea rows="5" [(ngModel)]="problema.descripcion" name="problema" value="problema"></ion-textarea>
+    </ion-item>
+    
+    <button ion-button type="submit" block>Guardar</button>
+  </form>
+</ion-content>

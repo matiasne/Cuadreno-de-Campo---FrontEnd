@@ -1,0 +1,224 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+body{
+  
+}
+
+ion-content{
+  margin-top:40px;
+}
+
+.md .menu-inner{
+  background-color: #00838f;
+}
+
+ion-header {
+  .toolbar {
+    position: absolute;
+
+    .toolbar-background {
+      background: #06a4b3;
+    }
+    .toolbar-title {
+      color:white;
+    }
+  }
+}
+
+label{
+    font-weight:lighter;
+}
+
+ion-icon{
+  margin-right: 15px;
+}
+
+.scroll-content{
+  overflow: auto;
+  overflow-x: hidden;
+  margin-bottom: 40px;
+}
+
+.item-input ion-input, .item-input ion-textarea {
+  border-bottom: 1px solid rgb(185, 185, 185);
+}
+
+.contenedor-menu ion-content{
+  
+  background: #00838f;  /* fallback for old browsers */
+   
+}
+
+.contenedor-menu ion-content button{
+  color:rgb(233, 233, 233);
+  border:none;
+   background: #00838f  ;
+
+
+ }
+
+ .item-md.item-block .item-inner{
+   border: none;  
+ }
+
+ .mostrar-item{
+  height: 40px;
+ }
+ 
+
+ .list-md{
+  margin-top: 30px;
+  margin-left: 15px;
+ }
+
+.icono-btn{
+  font-size: 32px;
+    color: rgb(228, 228, 228);
+    margin-right: 20px;
+    opacity: 0.8;
+}
+
+.submenu-item{
+  margin-left: 30px;
+    font-size: 15px;
+    opacity: 0.9;
+   
+   
+}
+
+.submenu-item .icono-btn{
+  margin-left: 30px;
+    font-size: 24px;
+    opacity: 0.7;
+    
+}
+
+
+.contenedor{
+    /*max-width: 900px;*/
+    margin: 30px;
+    /*background-color: white;*/
+    padding: 20px;
+    
+}
+
+.contenedor-sobre-mapa{
+    bottom: 0;
+    z-index: 999;
+    position: absolute;
+}
+
+
+.map{
+    z-index: -3 !important;
+}
+
+.btn-agregar{
+    border-color: white !important;
+    color: white !important;
+    right: 0;
+}
+
+.header-titulo{
+  margin-top:10px;
+  display: inline-block;
+  color: white;
+    margin-left: 20px;
+}
+.btn-cerrar{
+  float: right;
+}
+
+.list-header-md{
+    border-top:none;
+}
+
+
+
+.loading-md{
+    z-index: 9999;
+    background-color: black;
+    opacity: 0.7; 
+}
+
+.loading-wrapper{
+    background: transparent !important;
+}
+
+
+.sk-cube-grid {
+  width: 100px;
+  height: 100px;
+  margin: 100px auto;
+}
+  
+.sk-cube-grid .sk-cube {
+  width: 33%;
+  height: 33%;
+  background-color: rgb(255, 255, 255);
+  float: left;
+  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+}
+.sk-cube-grid .sk-cube1 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube2 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube3 {
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s; }
+.sk-cube-grid .sk-cube4 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube5 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube7 {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s; }
+.sk-cube-grid .sk-cube8 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube9 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); 
+  }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1);
+  } 
+}

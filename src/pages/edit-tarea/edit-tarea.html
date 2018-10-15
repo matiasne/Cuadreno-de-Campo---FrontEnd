@@ -1,0 +1,160 @@
+<!--
+  Generated template for the EditTareaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>  
+  <ion-navbar>
+    <ion-title>
+      {{titulo}}
+    </ion-title>   
+    <ion-buttons end>      
+      <button ion-button icon-only (click)="preguntarSalirSinGuardar();">
+        <ion-icon class="icono-btn" name="close">
+        </ion-icon>
+      </button>      
+    </ion-buttons>    
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-label color="primary" stacked>Fecha de tarea</ion-label>
+    <ion-input type="date" [(ngModel)]="tarea.fecha" name="fecha" value="2007-01-01"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label color="primary" stacked>Concepto</ion-label>
+    <ion-select name="concepto" [(ngModel)]="conceptoSeleccionado"> 
+      <ion-option *ngFor="let concepto of conceptos" [value]="concepto">
+        {{concepto.DS_GRW_CONCEPTO}}
+      </ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label color="primary" stacked>Asiganar a:</ion-label>
+    <ion-select name="contratista" [(ngModel)]="entidadSeleccionada"> 
+      <ion-option *ngFor="let contratista of contratistas" [value]="contratista">
+        {{contratista.DS_NOMBRE_COMERCIAL}}
+      </ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-grid class="contenedor-productos">
+    <ion-row class="titulo-productos">
+        Productos Necesarios
+    </ion-row>
+    <ion-row class="cabecera-productos">
+      <ion-col>
+        Producto
+      </ion-col>        
+      <ion-col>           
+        Dosis  
+      </ion-col>              
+      <ion-col>           
+        Cantidad Total
+      </ion-col>
+      <ion-col>           
+        
+      </ion-col> 
+    </ion-row>
+      <ion-row *ngFor="let productoAgregado of productosAgregados" class="contenido-productos">
+        <ion-col>
+          {{productoAgregado.DS_GRW_PRODUCTO}}
+        </ion-col>        
+        <ion-col> 
+          <ion-input type="number"  name="dosis" [(ngModel)]="productoAgregado.dosis" (ngModelChange)="MultiplicarDosis()"></ion-input>          
+        </ion-col> 
+        <ion-col>           
+          {{productoAgregado.totalAgregar}}
+        </ion-col>              
+        <ion-col>           
+            <button ion-button block (click)="BorrarProducto(productoAgregado.id)">
+              <ion-icon name="trash" ></ion-icon>    
+            </button> 
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <button class="btn-agregar-producto" (click)="VerAgregarProducto()" block ion-button>Agregar Producto</button>
+  
+    <ion-grid class="contenedor-lotes">
+      <ion-row class="titulo-lotes">
+          Lotes Afectados
+      </ion-row>
+      <ion-row class="cabecera-lotes">
+          <ion-col>
+            Nombre
+          </ion-col>        
+          <ion-col>           
+            Sup. Total
+          </ion-col>              
+          <ion-col>           
+            Aplicado Sobre
+          </ion-col>
+          <ion-col>           
+            
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let loteAfectado of lotesAfectados" class="contenido-lotes">
+          <ion-col>
+            {{loteAfectado.DS_LOTE}} 
+          </ion-col>        
+          <ion-col>           
+            {{loteAfectado.QT_HECTAREAS}} 
+          </ion-col>   
+          <ion-col>           
+            <ion-input type="number"  name="hectareas" [(ngModel)]="loteAfectado.hectareasProductoAplicado" (ngModelChange)="MultiplicarDosis()"></ion-input>
+          </ion-col>            
+          <ion-col>           
+              <button ion-button block (click)="BorrarLoteAfectado(loteAfectado.CD_LOTE)">
+                <ion-icon name="trash" ></ion-icon>    
+              </button> 
+          </ion-col>
+        </ion-row>  
+
+
+      </ion-grid> 
+      <button class="btn-lote-nuevo" (click)="VerAgregarLote()" block ion-button>Agregar Lote Afectado</button>
+      
+
+  <ion-item>
+    <ion-label color="primary" stacked>Estado:</ion-label>
+    <ion-select name="estado" [(ngModel)]="tarea.estado" [ngModelOptions]="{standalone: true}"> 
+      <ion-option [value]="pedido"> Pedido </ion-option>   
+      <ion-option [value]="pedido"> Realizado </ion-option>
+      <ion-option [value]="facturado"> Facturado </ion-option>    
+      <ion-option [value]="facturado"> Cancelado </ion-option>     
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label color="primary" stacked>Observación</ion-label>
+    <ion-textarea rows="5" [(ngModel)]="tarea.observacion" name="problema" placeholder="Ingrese su observación"></ion-textarea>
+  </ion-item>
+
+  
+  
+
+    <ion-row  >
+      <ion-col>
+          <button ion-button (click)="Cancelar();" block>Cancelar</button>
+      </ion-col>
+      <ion-col>           
+          <button ion-button (click)="Guardar();" block>Guardar Tarea</button>
+      </ion-col>
+    </ion-row>
+    
+    <ion-item>
+      <ion-select name="lotes" #SeleccionLote (ionChange)="AsignarLoteAfectado(SeleccionLote.value)" hidden> 
+        <ion-option *ngFor="let lote of lotesSeleccion" [value]="lote.CD_LOTE">
+          {{lote.DS_CAMPO}} > {{lote.DS_LOTE}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+    
+</ion-content>

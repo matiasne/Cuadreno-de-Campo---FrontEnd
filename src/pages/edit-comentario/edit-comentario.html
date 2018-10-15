@@ -1,0 +1,51 @@
+<!--
+  Generated template for the EditComentarioPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>  
+    <ion-navbar>
+      <ion-title>
+        {{titulo}}
+      </ion-title>   
+      <ion-buttons end>      
+        <button ion-button icon-only (click)="preguntarSalirSinGuardar();">
+          <ion-icon class="icono-btn" name="close">
+          </ion-icon>
+        </button>      
+      </ion-buttons>    
+    </ion-navbar>
+  </ion-header>
+
+
+<ion-content padding>
+      <form>
+    
+        <ion-item>
+            <ion-label color="primary" stacked>Comentario</ion-label>
+          <ion-textarea rows="3" [(ngModel)]="comentario.comentario" name="comentario" value="comentario" placeholder="Ingrese aquí su comentario"></ion-textarea>
+        </ion-item>    
+        
+        <ion-row>
+          <ion-col>
+              <button ion-button (click)="Cancelar();" block>Cancelar</button>
+          </ion-col>
+          <ion-col>           
+              <button ion-button  (click)="Guardar();">Guardar</button>  
+          </ion-col>
+        </ion-row> 
+
+        
+
+      </form>
+      <ion-grid>                
+        <ion-row  *ngFor="let comentario of comentarios; let i =index">
+          <div class="contenedor-comentario">
+            <div class="cabecera-comentario">{{comentario.nombreUsuario}} {{comentario.fecha |  date:'shortDate'}}</div>       
+            <div class="contenido-comentario">{{comentario.comentario}} </div>
+          </div>
+        </ion-row>        
+      </ion-grid>
+ 
+</ion-content>

@@ -1,0 +1,218 @@
+<!--
+  Generated template for the ZonasPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button> 
+        <ion-buttons end>
+          <button ion-button icon-only (click)="presentBuscarModal()">
+            <ion-icon name="search"></ion-icon>      
+          </button>
+          <button ion-button icon-only (click)="AbrirSelectorIngeniero()" *ngIf="isIngeniero">
+            <ion-icon name="contact"></ion-icon>      
+          </button>
+          <button ion-button icon-only (click)="AbrirSelectorCosecha()">
+            <ion-icon name="albums"></ion-icon>      
+          </button>  
+        </ion-buttons>           
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-select name="cosecha" #Cosecha  (ionChange)="Seleccionar(Cosecha.value)" hidden> 
+    <ion-option *ngFor="let cosecha of cosechas" [value]="cosecha">
+      {{cosecha.CD_COSECHA}}
+    </ion-option>
+  </ion-select>
+  
+  <ion-select name="entidad" #Ingeniero  (ionChange)="SeleccionarIngeniero(Ingeniero.value)" hidden> 
+    <ion-option *ngFor="let ingeniero of ingenieros" [value]="ingeniero">
+      {{ingeniero.DS_NOMBRE_COMERCIAL}}
+    </ion-option>
+  </ion-select>
+
+
+  <input id="pac-input" class="controls" type="text" placeholder="Busqueda de Google">
+
+  <div id="mapZonas"  gmap style="width:100%;height:93vh"></div> 
+
+  <div class="contenedor-panel-elementos">
+    <div>
+      <div class="item-panel" *ngFor="let z of zonas; let i=index" text-wrap  [ngClass]="{active: isLevel1Shown('idx'+i)}">
+        <div class="titulo" (click)=" IrAZona(z)">
+          {{z.DS_LUGAR_ZONA}}
+        </div>                  
+        <!--div *ngIf="isLevel1Shown('idx'+i)" -->
+        <div  class="item-panel-2" *ngFor="let c of z.campos; let i2=index" text-wrap  [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+          <div class="titulo-2" (click)=" IrACampo(c)"> 
+            {{c.DS_CAMPO}}
+          </div>  
+          <div *ngIf="isLevel2Shown('idx'+i+'idx'+i2)">
+            <div  class="item-panel-3" *ngFor="let l of c.lotes; let i3=index" text-wrap>
+              <div class="titulo-3" (click)=" IrALote(l)" [ngClass]="{active: isLevel3Shown(i3)}">
+                {{l.DS_LOTE}} 
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/div-->
+      </div>
+    </div>
+
+  </div>
+
+  <div class="panel-revision" *ngIf="showPanelLote" [@enterAnimation]>
+    
+  
+
+
+  <div class="contenedor-panel-revision" >  
+    <ion-row class="row-panel-revision tabla-header">
+      Lote    
+    </ion-row>   
+    <ion-row class="row-panel-revision">
+      
+      <ion-col>
+        Cultivo Anterior:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.cultivo}}
+      </ion-col>
+      <ion-col>
+        Fecha de Siembra:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.fechaSiembra}}
+      </ion-col>
+    </ion-row>    
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Plaguicida Clorado:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.plaguicidaClorado}}
+      </ion-col>
+      <ion-col>
+        Fecha de Arrancado:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.fechaArrancado}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Variedad:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.variedad}}
+      </ion-col>
+      <ion-col>
+        Fecha de Cosecha:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.fechaCosecha}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Densidad:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.densidad}}
+      </ion-col>
+      <ion-col>
+        
+      </ion-col>
+      <ion-col>
+        
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Funguicida:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.funguicida}}
+      </ion-col>
+      <ion-col>
+        Biorregulador:
+      </ion-col>
+      <ion-col>
+        {{revisionPanel.biorregulador}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Polímero:
+      </ion-col>
+      <ion-col>           
+        {{revisionPanel.polimero}}
+      </ion-col>
+      <ion-col>
+        
+      </ion-col>
+      <ion-col>
+        
+      </ion-col>
+    </ion-row>
+    
+    
+  </div> 
+</div>
+
+
+<div class="panel-revision" *ngIf="showPanelCampo" [@enterAnimation]>
+  <div class="contenedor-panel-revision" >
+    <ion-row class="row-panel-revision tabla-header">
+      Campo    
+    </ion-row>      
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Nombre:
+      </ion-col>
+      <ion-col>           
+        {{campoPanel.DS_CAMPO}}
+      </ion-col>      
+    </ion-row>    
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Hectareas:
+      </ion-col>
+      <ion-col>           
+        {{campoPanel.hectareasTotal}}
+      </ion-col>      
+    </ion-row>    
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Provincia:
+      </ion-col>
+      <ion-col>           
+        {{campoPanel.dsProvincia}}
+      </ion-col>      
+    </ion-row>
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Zona:
+      </ion-col>
+      <ion-col>           
+        {{campoPanel.DS_LUGAR_ZONA}}
+      </ion-col>      
+    </ion-row>
+    <ion-row class="row-panel-revision">
+      <ion-col>
+        Localidad:
+      </ion-col>
+      <ion-col>           
+        {{campoPanel.dsLocalidad}}
+      </ion-col>      
+    </ion-row>   
+    
+  </div> 
+</div>
+</ion-content>

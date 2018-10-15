@@ -1,0 +1,115 @@
+
+<ion-menu class="contenedor-menu" id="default" [content]="content">
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="MostrarPlanSustentabilidad()"><ion-icon class="icono-btn" name="document"></ion-icon>Plan de Sustentabilidad</button>
+      <button  menuClose ion-item (click)="administrarUsuarios()" *ngIf="isAdmin"><ion-icon class="icono-btn" name="contacts"></ion-icon>Usuarios</button>           
+      <button  menuClose ion-item (click)="logout()"><ion-icon class="icono-btn" name="log-out"></ion-icon>Logout</button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-menu class="contenedor-menu" id="menuZona" side="left" [content]="content">
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="MostrarPlanSustentabilidad()"><ion-icon class="icono-btn" name="document"></ion-icon>Plan de Sustentabilidad</button>     
+      <button ion-item (click)="MostrarMenuEdicionZona()"><ion-icon class="icono-btn" name="create"></ion-icon>Editar</button>          
+      <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuEdicionZona" [@enterAnimation] (click)="EntrarModoDibujarUpdate()"><ion-icon class="icono-btn" name="create"></ion-icon>Dibujar</button>
+      <button ion-item (click)="MostrarMenuVerDatosZona()"><ion-icon class="icono-btn" name="eye"></ion-icon>Ver</button> 
+      <button menuClose ion-item class="submenu-item" *ngIf="showSubmenuVerDatosZona" [@enterAnimation] (click)="presentEstadisticas()"><ion-icon class="icono-btn" name="construct"></ion-icon>Estadisticas</button>
+      <button  menuClose ion-item (click)="administrarUsuarios()" *ngIf="isAdmin"><ion-icon class="icono-btn" name="contacts"></ion-icon>Usuarios</button>           
+      <button  menuClose ion-item (click)="logout()"><ion-icon class="icono-btn" name="log-out"></ion-icon>Logout</button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+
+<ion-menu class="contenedor-menu" id="menuEstablecimiento" side="left" [content]="content">
+    
+      
+      <ion-content>
+        <ion-list>  
+          
+            <button ion-item (click)="MostrarPlanSustentabilidad()"><ion-icon class="icono-btn" name="document"></ion-icon>Plan de Sustentabilidad</button>
+          <button ion-item (click)="MostrarMenuAgregarDatoEstablecimiento()"><ion-icon class="icono-btn" name="add"></ion-icon>Agregar Datos</button>
+            <button menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoEstablecimiento" [@enterAnimation] (click)="presentClimaticoModal()"><ion-icon class="icono-btn" name="partly-sunny"></ion-icon>Clima</button>
+            <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoEstablecimiento && isIngeniero" [@enterAnimation] (click)="presentAgregarVisita()"><ion-icon class="icono-btn" name="analytics"></ion-icon>Visita</button>
+            <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoEstablecimiento" [@enterAnimation] (click)="presentAgregarTarea()"><ion-icon class="icono-btn" name="speedometer"></ion-icon>Tarea</button>      
+            <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoEstablecimiento" [@enterAnimation] (click)="presentAgregarComentario()"><ion-icon class="icono-btn" name="chatboxes"></ion-icon>Comentario</button>
+       
+
+          <button ion-item (click)="MostrarMenuEdicionEstablecimiento()"><ion-icon class="icono-btn" name="create"></ion-icon>Editar</button>          
+          <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuEdicionEstablecimiento" [@enterAnimation] (click)="EntrarModoDibujarUpdate()"><ion-icon class="icono-btn" name="create"></ion-icon>Dibujar</button>
+            
+
+           
+          <button ion-item (click)="MostrarMenuVerDatosEstablecimiento()"><ion-icon class="icono-btn" name="eye"></ion-icon>Ver</button> 
+           <button menuClose ion-item class="submenu-item" *ngIf="showSubmenuVerDatosEstablecimiento" [@enterAnimation] (click)="presentEstadisticas()"><ion-icon class="icono-btn" name="construct"></ion-icon>Estadisticas</button>
+          <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuVerDatosEstablecimiento" [@enterAnimation] (click)="presentVerHistorial()"><ion-icon class="icono-btn" name="clipboard"></ion-icon>Historial</button>
+          
+          
+          <button  menuClose ion-item (click)="administrarUsuarios()" *ngIf="isAdmin"><ion-icon class="icono-btn" name="contacts"></ion-icon>Usuarios</button>           
+          <button  menuClose ion-item (click)="logout()"><ion-icon class="icono-btn" name="log-out"></ion-icon>Logout</button>
+
+        </ion-list>
+      </ion-content>
+
+</ion-menu>
+
+<ion-menu class="contenedor-menu" id="menuLote" side="left" [content]="content">
+   
+      
+      <ion-content>
+        <ion-list>
+
+            
+            <button ion-item (click)="MostrarMenuAgregarDatoLote()"><ion-icon class="icono-btn" name="add"></ion-icon>Agregar Datos</button>
+              <button menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoLote" [@enterAnimation] (click)="presentEditRevision()"><ion-icon class="icono-btn" name="cog"></ion-icon>Datos Generales</button>
+              <button menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoLote" [@enterAnimation] (click)="presentClimaticoModal()"><ion-icon class="icono-btn" name="partly-sunny"></ion-icon>Clima</button>
+              <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoLote && isIngeniero" [@enterAnimation] (click)="presentAgregarVisita()"><ion-icon class="icono-btn" name="analytics"></ion-icon>Visita</button>
+              <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoLote" [@enterAnimation] (click)="presentAgregarTarea()"><ion-icon class="icono-btn" name="speedometer"></ion-icon>Tarea</button>      
+              <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuAgregarDatoLote" [@enterAnimation] (click)="presentAgregarComentario()"><ion-icon class="icono-btn" name="chatboxes"></ion-icon>Comentario</button>
+           
+              
+            <button ion-item (click)="MostrarMenuEdicionLote()"><ion-icon class="icono-btn" name="create"></ion-icon>Editar</button>          
+              <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuEdicionLote" [@enterAnimation] (click)="EntrarModoDibujarUpdate()"><ion-icon class="icono-btn" name="create"></ion-icon>Dibujar</button>
+            
+             
+            <button ion-item (click)="MostrarMenuVerDatosLote()"><ion-icon class="icono-btn" name="eye"></ion-icon>Ver</button> 
+             <button menuClose ion-item class="submenu-item" *ngIf="showSubmenuVerDatosLote" [@enterAnimation] (click)="presentEstadisticas()"><ion-icon class="icono-btn" name="construct"></ion-icon>Estadisticas</button>
+            <button  menuClose ion-item class="submenu-item" *ngIf="showSubmenuVerDatosLote" [@enterAnimation] (click)="presentVerHistorial()"><ion-icon class="icono-btn" name="clipboard"></ion-icon>Historial</button>
+          
+            <button  menuClose ion-item (click)="administrarUsuarios()" *ngIf="isAdmin"><ion-icon class="icono-btn" name="contacts"></ion-icon>Usuarios</button>           
+            <button  menuClose ion-item (click)="logout()"><ion-icon class="icono-btn" name="log-out"></ion-icon>Logout</button>
+
+          </ion-list>
+      </ion-content>
+
+</ion-menu>
+
+
+<ion-menu class="contenedor-menu" id="menuDibujando" side="left" [content]="content">
+    
+      
+      <ion-content>
+        <ion-list>
+            <button menuClose ion-item (click)="DeshacerCambio()"><ion-icon class="icono-btn" name="arrow-back"></ion-icon>Desahcer</button>
+            <button menuClose ion-item (click)="GuardarDibujo()"><ion-icon class="icono-btn" name="create"></ion-icon>Guardar</button>
+            <button  menuClose ion-item (click)="Borrar()"><ion-icon class="icono-btn" name="trash"></ion-icon>Borrar</button>
+            <button  menuClose ion-item  (click)="preguntarSalirSinGuardar()" ><ion-icon class="icono-btn" name="close"></ion-icon>Cancelar</button>
+
+            <button  menuClose ion-item (click)="administrarUsuarios()" *ngIf="isAdmin"><ion-icon class="icono-btn" name="contacts"></ion-icon>Usuarios</button>           
+            <button  menuClose ion-item (click)="logout()"><ion-icon class="icono-btn" name="log-out"></ion-icon>Logout</button>
+        </ion-list>
+      </ion-content>
+
+</ion-menu>
+
+
+
+
+
+<div class="loader" *ngIf="objLoaderStatus"></div>
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

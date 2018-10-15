@@ -1,0 +1,32 @@
+
+<ion-header>  
+  <ion-navbar>
+    <ion-title>
+      {{titulo}}
+    </ion-title>   
+    <ion-buttons end>      
+      <button ion-button icon-only (click)="preguntarSalirSinGuardar();">
+        <ion-icon class="icono-btn" name="close">
+        </ion-icon>
+      </button>      
+    </ion-buttons>    
+  </ion-navbar>
+</ion-header>
+
+<ion-content >   
+    <ion-item>
+      <ion-label color="primary" stacked>Nombre</ion-label>
+      <ion-input type="text" [(ngModel)]="zona.nombre" name="zona" value="" placeholder="Ingresar Nombre"></ion-input>
+    </ion-item>
+    <ion-item>      
+      <input id="localidad-input" [(ngModel)]="zona.ubicacion" class="controls" type="text" placeholder="Ingresar Ubicación">
+    </ion-item>  
+    <ion-row>
+      <ion-col>
+          <button ion-button (click)="Cancelar();" block>Cancelar</button>
+      </ion-col>
+      <ion-col>           
+          <button ion-button (click)="Guardar();" block>Guardar</button>
+      </ion-col>
+    </ion-row> 
+</ion-content>

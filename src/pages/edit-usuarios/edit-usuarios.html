@@ -1,0 +1,60 @@
+<!--
+  Generated template for the EditUsuariosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Gestionar Usuarios</ion-title>
+    <ion-buttons end>      
+      <button ion-button icon-only (click)="Cancelar();">
+        <ion-icon class="icono-btn" name="close">
+        </ion-icon>
+      </button>      
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-row>
+    <ion-col>      
+      <ion-input  type="text" name="busqueda" placeholder="Ingresar Nombre" [(ngModel)]="palabra"></ion-input>
+    </ion-col>
+    <ion-col>
+      <button ion-button block (click)="Buscar()"><ion-icon name="search" ></ion-icon> Buscar</button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+      <button ion-button block (click)="NuevoUsuario()"><ion-icon name="plus" ></ion-icon> Nuevo Usuario</button>
+  </ion-row>    
+  <div class="row header" id="titulo-zonas">
+    Usuarios
+  </div>
+  
+    <ion-row class="cabecera-zonas" id="tabla-header-zonas">
+      <ion-col>
+        Nombre
+      </ion-col>        
+      <ion-col>           
+        Cuit
+      </ion-col>  
+      <ion-col>           
+        Permisos
+      </ion-col>   
+     
+    </ion-row>
+
+  <ion-row *ngFor="let usuario of usauriosFiltrados; let i =index" (click)="SeleccionarUsuario(usuario)">
+    <ion-col>
+      {{usuario.nombre}}
+    </ion-col>        
+    <ion-col>     
+      {{usuario.cuit}}   
+    </ion-col>     
+    <ion-col>           
+      {{usuario.permiso}}
+    </ion-col>   
+  </ion-row>
+</ion-content>

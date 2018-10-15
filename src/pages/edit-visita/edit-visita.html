@@ -1,0 +1,256 @@
+<!--
+  Generated template for the EditVisitaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>  
+    <ion-navbar>
+      <ion-title>
+        {{titulo}}
+      </ion-title>   
+      <ion-buttons end>      
+        <button ion-button icon-only (click)="preguntarSalirSinGuardar();">
+          <ion-icon class="icono-btn" name="close">
+          </ion-icon>
+        </button>      
+      </ion-buttons>    
+    </ion-navbar>
+  </ion-header>
+
+<ion-content padding>
+ 
+      <ion-item>
+        <ion-label>Fecha de visita</ion-label>
+        <ion-input type="date" [(ngModel)]="visita.fecha" name="fecha"></ion-input>
+      </ion-item>   
+      
+
+      <ion-grid class="contenedor-registros">
+        <ion-row class="titulo-registros">
+            Registros
+        </ion-row>
+        <ion-row class="cabecera-registros">
+          <ion-col>
+            Nombre
+          </ion-col>
+          <ion-col>           
+            Densidad  
+          </ion-col>
+          <ion-col>           
+            Aprobado 
+          </ion-col>
+          <ion-col>           
+            
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let registro of registros" class="contenido-registros">
+          
+          <ion-col>
+              {{registro.nombre}} 
+          </ion-col>
+          <ion-col>           
+              {{registro.densidad}} 
+          </ion-col>
+          <ion-col>           
+              {{registro.control}}
+          </ion-col>
+         
+          
+          <ion-col>           
+              <button ion-button block (click)="BorrarRegistro(registro);">
+                <ion-icon name="trash" ></ion-icon>    
+              </button> 
+          </ion-col>
+        </ion-row>
+      </ion-grid>      
+ 
+      <button class="btn-registro" (click)="VerNuevoRegistro();" *ngIf="!agregarNuevoRegistro" block ion-button>Nuevo Registro</button>
+
+    
+    <div *ngIf="agregarNuevoRegistro">
+        <ion-item>
+          <ion-label color="primary" stacked>Clasificación Problema</ion-label>
+          <ion-select name="tipoproblema" #C (ionChange)="FiltrarProblemasPorTipo(C.value)"> 
+            <ion-option *ngFor="let tipoProblema of tiposProblemas" [value]="tipoProblema.id">
+              {{tipoProblema.nombre}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" stacked>Problema</ion-label>
+          <ion-select name="problema" #Problema  (ionChange)="AsignarProblema(Problema.value)"> 
+            <ion-option *ngFor="let problema of problemasFiltrados" [value]="problema">
+              {{problema.nombre}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" stacked>Aprobado</ion-label>
+          <ion-select name="nivel" [(ngModel)]="nuevoRegistro.control" [ngModelOptions]="{standalone: true}"> 
+            <ion-option [value]="si"> SI </ion-option>   
+            <ion-option [value]="no"> NO </ion-option>       
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" stacked> Densidad </ion-label>
+          <ion-select name="nivel" [(ngModel)]="nuevoRegistro.densidad" [ngModelOptions]="{standalone: true}"> 
+              <ion-option [value]="si"> Alta </ion-option>   
+              <ion-option [value]="no"> Baja </ion-option>       
+          </ion-select>        
+        </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>Observación</ion-label>
+        <ion-textarea rows="5" [(ngModel)]="nuevoRegistro.observacion" name="problema" placeholder="Ingrese su observación"></ion-textarea>
+      </ion-item>
+
+      
+
+      <ion-row>
+        <ion-col>
+            <button class="btn-registro" ion-button (click)="CancelarGuardarRegistro()" block>Cancelar</button>
+        </ion-col>
+        <ion-col>           
+            <button class="btn-registro" ion-button  (click)="GuardarRegistro()" block>Guardar Registro</button>  
+        </ion-col>
+      </ion-row>
+    </div> 
+
+    <ion-grid class="contenedor-lotes">
+        <ion-row class="titulo-lotes">
+            Lotes Afectados
+        </ion-row>
+        <ion-row class="cabecera-lotes">
+            <ion-col>
+              Nombre
+            </ion-col>        
+            <ion-col>           
+              Superficie  
+            </ion-col>              
+            <ion-col>           
+              
+            </ion-col>
+            <ion-col>           
+              
+            </ion-col>
+          </ion-row>
+    
+          <ion-row *ngFor="let loteAfectado of lotesAfectados" class="contenido-lotes">
+            <ion-col>
+              {{loteAfectado.DS_LOTE}} 
+            </ion-col>        
+            <ion-col>           
+              {{loteAfectado.QT_HECTAREAS}} 
+            </ion-col>  
+            <ion-col>           
+              
+            </ion-col>            
+            <ion-col>           
+                <button ion-button block (click)="BorrarLoteAfectado(loteAfectado.CD_LOTE)">
+                  <ion-icon name="trash" ></ion-icon>    
+                </button> 
+            </ion-col>
+          </ion-row>    
+        </ion-grid>
+    
+      
+        <button class="btn-lote-nuevo" (click)="VerAgregarLote()" block ion-button>Agregar Lote Afectado</button>
+    
+
+        <ion-grid class="contenedor-tareas">
+            <ion-row class="titulo-tareas">
+                Archivos Adjuntos
+            </ion-row>
+            <ion-row class="cabecera-tareas" >
+                <ion-col>
+                  Concepto
+                </ion-col>        
+                <ion-col>           
+                  Responsable  
+                </ion-col>              
+                <ion-col>           
+                  Estado
+                </ion-col>  
+                <ion-col>
+
+                </ion-col>             
+              </ion-row>
+        
+              <ion-row *ngFor="let tarea of tareas" class="contenido-lotes" (click)="presentTareaModal(tarea)">
+                <ion-col>
+                  {{tarea.dsConcepto}} 
+                </ion-col>        
+                <ion-col>           
+                  {{tarea.dsEntidad}} 
+                </ion-col>  
+                <ion-col>           
+                  {{tarea.estado}} 
+                </ion-col>            
+                <ion-col>           
+                  <button ion-button block (click)="BorrarTarea(tarea);">
+                    <ion-icon name="trash" ></ion-icon>    
+                  </button> 
+                </ion-col>
+              </ion-row>        
+            </ion-grid>
+            <button   class="btn-tarea-nuevo" (click)="presentAgregarTarea()" block ion-button>Agregar Tarea</button>
+
+            <ion-grid class="contenedor-archivos">
+              <ion-row class="titulo-archivos">
+                <input type="file" #fileInput multiple (change)="addToQueue()" />
+              </ion-row>
+              <ion-row class="cabecera-archivos">
+                <ion-col>
+                  Nombre
+                </ion-col>
+                <ion-col>
+                  Tamaño
+                </ion-col>
+                <ion-col>
+                  Progreso
+                </ion-col>
+                <ion-col>
+                  
+                </ion-col>
+              </ion-row>
+              <ion-row *ngFor="let item of queue | async" class="contenido-archivos">
+                <ion-col>
+                  {{ item?.file?.name }}
+                </ion-col>
+                <ion-col>
+                  {{ item?.file?.size/1024/1024 | number:'.2' }} MB
+                </ion-col>
+                <ion-col>
+                  {{ item.progress + ' %' }}
+                </ion-col>
+                <ion-col>
+                  <button ion-button block (click)="item.remove()" *ngIf="!item.inProgress()">
+                    <ion-icon name="trash" ></ion-icon>    
+                  </button> 
+
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+        
+       
+
+      <ion-row>
+        <ion-col>
+            <button ion-button (click)="Cancelar();" block>Cancelar</button>
+        </ion-col>
+        <ion-col>           
+            <button ion-button (click)="Guardar();" block>Guardar Visita</button>
+        </ion-col>
+      </ion-row> 
+  
+  
+    <ion-item>
+      <ion-select name="lotes" #SeleccionLote (ionChange)="AsignarLoteAfectado(SeleccionLote.value)"> 
+        <ion-option *ngFor="let lote of lotesSeleccion" [value]="lote.CD_LOTE">
+          {{lote.DS_CAMPO}} > {{lote.DS_LOTE}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+</ion-content>
+
+
