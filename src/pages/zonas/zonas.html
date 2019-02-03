@@ -42,7 +42,7 @@
 
   <div id="mapZonas"  gmap style="width:100%;height:93vh"></div> 
 
-  <div class="contenedor-panel-elementos">
+  <div class="contenedor-panel-elementos" *ngIf="!modoEdicion">
     <div>
       <div class="item-panel" *ngFor="let z of zonas; let i=index" text-wrap  [ngClass]="{active: isLevel1Shown('idx'+i)}">
         <div class="titulo" (click)=" IrAZona(z)">

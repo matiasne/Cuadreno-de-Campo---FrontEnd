@@ -20,6 +20,7 @@ export class Lote {
     public coordenadasPoligono:any;   
     public poligono:any;
     public hectareasProductoAplicado:number; //Utilizado en la tarea solamente
+    public urlKmz:String;
 
     constructor(
        

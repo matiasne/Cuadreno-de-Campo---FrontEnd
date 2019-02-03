@@ -57,7 +57,7 @@ export class EditZonaPage {
     }
 
     var input = document.getElementById('localidad-input');
-    var searchBox = new google.maps.places.SearchBox(input);
+    //var searchBox = new google.maps.places.SearchBox(input);
 
   }
 

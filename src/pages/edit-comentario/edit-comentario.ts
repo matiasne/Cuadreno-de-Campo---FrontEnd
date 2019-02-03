@@ -43,16 +43,16 @@ export class EditComentarioPage {
     
     this.tipoEdicion = this.navParams.get('tipoEdicion');    
 
-    var idEstablecimiento;
+    console.log(this._globalesProvider.elementoSeleccionado)
+    
     if(this._globalesProvider.elementoSeleccionado.tipo == "Campo")
-      this.comentario.idEstablecimiento = this._globalesProvider.elementoSeleccionado.id;
+      this.comentario.idEstablecimiento = this._globalesProvider.elementoSeleccionado.CD_CAMPO;
     else
       this.comentario.idEstablecimiento = 0;
 
 
-    var idLote;
     if(this._globalesProvider.elementoSeleccionado.tipo == "Lote"){
-      this.comentario.idLote = this._globalesProvider.elementoSeleccionado.id;
+      this.comentario.idLote = this._globalesProvider.elementoSeleccionado.CD_LOTE;
       this.comentario.idEstablecimiento = this._globalesProvider.elementoSeleccionado.idEstablecimiento;
     }
     else
@@ -145,9 +145,11 @@ export class EditComentarioPage {
   }
 
   ObtenerComentarios(){
+    this.comentarios = [];
     if(this.comentario.idEstablecimiento != null){
       this._comentarioProvider.getByEstablecimiento(this.comentario.idEstablecimiento).subscribe(
         response => {
+          console.log(response);
           this.comentarios = response.data;
         }, 
         error => {
@@ -159,6 +161,7 @@ export class EditComentarioPage {
     if(this.comentario.idLote != null){
       this._comentarioProvider.getByLote(this.comentario.idLote).subscribe(
         response => {
+          console.log(response);
           this.comentarios = response.data;
         },
         error => {

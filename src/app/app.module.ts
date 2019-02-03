@@ -65,6 +65,7 @@ import { EditUserPage } from '../pages/edit-user/edit-user';
 import { FileUploaderService } from '../providers/file-uploader/file-uploader.service';
 import {  HttpClient, HttpClientModule } from '@angular/common/http';
 import { VariedadProvider } from '../providers/variedad/variedad';
+import { MarcadoresProvider } from '../providers/marcadores/marcadores';
 
 
 
@@ -173,6 +174,7 @@ import { VariedadProvider } from '../providers/variedad/variedad';
     FileUploaderService,
     HttpClient,
     VariedadProvider,
+    MarcadoresProvider,
     
   ]
 })

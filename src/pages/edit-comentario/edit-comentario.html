@@ -42,7 +42,7 @@
       <ion-grid>                
         <ion-row  *ngFor="let comentario of comentarios; let i =index">
           <div class="contenedor-comentario">
-            <div class="cabecera-comentario">{{comentario.nombreUsuario}} {{comentario.fecha |  date:'shortDate'}}</div>       
+            <div class="cabecera-comentario">{{comentario.fecha |  date:'shortDate'}}</div>       
             <div class="contenido-comentario">{{comentario.comentario}} </div>
           </div>
         </ion-row>        

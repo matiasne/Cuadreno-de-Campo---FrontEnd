@@ -35,14 +35,14 @@
     </ion-select>
   </ion-item>
 
-  <ion-item>
+  <!--ion-item>
     <ion-label color="primary" stacked>Asiganar a:</ion-label>
     <ion-select name="contratista" [(ngModel)]="entidadSeleccionada"> 
       <ion-option *ngFor="let contratista of contratistas" [value]="contratista">
         {{contratista.DS_NOMBRE_COMERCIAL}}
       </ion-option>
     </ion-select>
-  </ion-item>
+  </ion-item-->
 
   <ion-grid class="contenedor-productos">
     <ion-row class="titulo-productos">
@@ -126,9 +126,7 @@
     <ion-label color="primary" stacked>Estado:</ion-label>
     <ion-select name="estado" [(ngModel)]="tarea.estado" [ngModelOptions]="{standalone: true}"> 
       <ion-option [value]="pedido"> Pedido </ion-option>   
-      <ion-option [value]="pedido"> Realizado </ion-option>
-      <ion-option [value]="facturado"> Facturado </ion-option>    
-      <ion-option [value]="facturado"> Cancelado </ion-option>     
+      <ion-option [value]="pedido"> Realizado </ion-option>  
     </ion-select>
   </ion-item>
 

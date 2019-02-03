@@ -126,6 +126,7 @@ export class EditTareaPage {
       
       console.log("parametro lotes afectados");
       console.log(this.navParams.get('lotesAfectados'));
+
       if(this.navParams.get('lotesAfectados') != undefined){      
         this.navParams.get('lotesAfectados').forEach((element)=> {          
           this.AsignarLoteAfectado(element.CD_LOTE,element.QT_HECTAREAS);
@@ -133,11 +134,15 @@ export class EditTareaPage {
       }
       else{
         
-        if(this._globalesProvider.elementoSeleccionado.tipo == "Campo"){       
+        if(this._globalesProvider.elementoSeleccionado.tipo == "Campo"){ 
+          this.lotesSeleccion = [];
+          this.lotesSeleccion = this._globalesProvider.ObtenerSoloLotesCampo(this._globalesProvider.elementoSeleccionado.CD_CAMPO);
+          
           this.AsignarLotesDelCampo();  
         }
         else{
           this.AsignarLoteAfectado(this._globalesProvider.elementoSeleccionado.CD_LOTE,this._globalesProvider.elementoSeleccionado.QT_HECTAREAS); 
+          this.lotesSeleccion = []; //Borramos para que sea una tarea solo asignada a un lote
         }
       }       
 
@@ -187,13 +192,17 @@ export class EditTareaPage {
   }
 
   AsignarLotesDelCampo(){
-    console.log("Asignando lotes del campo"+this.tarea.idEstablecimiento);
-      this.lotesSeleccion.forEach(lote =>{
-        if(lote.CD_CAMPO == this.tarea.idEstablecimiento){
-          console.log(lote);
-          this.AsignarLoteAfectado(lote.CD_LOTE,lote.QT_HECTAREAS);
-        }
-      })   
+    var asignados = new Array();
+    this.lotesSeleccion.forEach( (lote,index) =>{
+      console.log(lote.CD_CAMPO+" "+this.tarea.idEstablecimiento);
+      if(lote.CD_CAMPO == this.tarea.idEstablecimiento){
+        asignados.push(lote);        
+      }
+    }) 
+    
+    asignados.forEach(lote =>{
+      this.AsignarLoteAfectado(lote.CD_LOTE,lote.QT_HECTAREAS);
+    })
   }
 
   ObtenerProductosAgregados(){
@@ -428,13 +437,22 @@ export class EditTareaPage {
 
   AsignarLoteAfectado(idlote,hectareasAplicado){
     //Extraemos el lote de la lista de seleccion
+    console.log("Asignando Lote: "+idlote);
+
+    var borrar = new Array();
+    
     var elemento = this.lotesSeleccion.forEach((item,index) =>{
-      if(item.CD_LOTE == idlote){        
-        item.hectareasProductoAplicado = hectareasAplicado;     
-        this.lotesSeleccion.splice(index,1);      
+      if(item.CD_LOTE == idlote){
+        console.log("Asignado "+item);        
+        item.hectareasProductoAplicado = hectareasAplicado; 
+        borrar.push(index);             
         this.lotesAfectados.push(item);      
       }
-    });       
+    });
+    
+    borrar.forEach(item =>{
+      this.lotesSeleccion.splice(item,1);
+    })
       
   }
 

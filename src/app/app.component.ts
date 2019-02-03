@@ -57,7 +57,7 @@ export class MyApp {
 
   public objLoaderStatus: boolean = true;
 
-  public guardarSoloDibujo:boolean = false;
+ // public guardarSoloDibujo:boolean = false;
 
   public subscriptionElementoaObs: Subscription;
   public subscriptionUsuairoObs: Subscription;
@@ -102,6 +102,20 @@ export class MyApp {
     this.usuario = new Usuario();
 
     //Esto tengo que hacerlo con un subscribe
+
+  }
+
+  ActivarMenu(menu){
+
+    this.menuCtrl.enable(false, 'menuZona');
+    this.menuCtrl.enable(false, 'menuEstablecimiento');
+    this.menuCtrl.enable(false, 'menuLote');
+    this.menuCtrl.enable(false, 'menuDibujando');
+    this.menuCtrl.enable(false, 'menuDefinirPunto');
+    this.menuCtrl.enable(false, 'menuDibujoGuardado');
+    this.menuCtrl.enable(false, 'default'); 
+    this.menuCtrl.enable(true, menu);    
+    
 
   }
 
@@ -220,40 +234,23 @@ export class MyApp {
           
             if(elemento != undefined){
             if(elemento.tipo == "Zona"){
-              this.menuCtrl.enable(true, 'menuZona');
-              this.menuCtrl.enable(false, 'menuEstablecimiento');
-              this.menuCtrl.enable(false, 'menuLote');
-              this.menuCtrl.enable(false, 'menuDibujando');
-              this.menuCtrl.enable(false, 'menuDibujoGuardado');
-              this.menuCtrl.enable(false, 'menuDibujoGuardado');
-              this.menuCtrl.enable(false, 'default');
+              this.ActivarMenu('menuZona');
+              
             }
 
             if(elemento.tipo=="Campo"){
-              this.menuCtrl.enable(false, 'menuZona');
-              this.menuCtrl.enable(true, 'menuEstablecimiento');
-              this.menuCtrl.enable(false, 'menuLote');
-              this.menuCtrl.enable(false, 'menuDibujando');
-              this.menuCtrl.enable(false, 'menuDibujoGuardado');
-              this.menuCtrl.enable(false, 'default');
+              this.ActivarMenu('menuEstablecimiento');
+             
             }
 
             if(elemento.tipo =="Lote"){
-              this.menuCtrl.enable(false, 'menuZona');
-              this.menuCtrl.enable(false, 'menuEstablecimiento');
-              this.menuCtrl.enable(true, 'menuLote');
-              this.menuCtrl.enable(false, 'menuDibujando');
-              this.menuCtrl.enable(false, 'menuDibujoGuardado');
-              this.menuCtrl.enable(false, 'default');
+              this.ActivarMenu('menuLote');
+              
             }
           }
           else{
-            this.menuCtrl.enable(false, 'menuZona');
-            this.menuCtrl.enable(false, 'menuEstablecimiento');
-            this.menuCtrl.enable(false, 'menuLote');
-            this.menuCtrl.enable(false, 'menuDibujando');
-            this.menuCtrl.enable(false, 'menuDibujoGuardado');
-            this.menuCtrl.enable(true, 'default');
+            this.ActivarMenu('default');
+            
           }  
             
           
@@ -276,21 +273,50 @@ export class MyApp {
 
   EntrarModoDibujarUpdate(){
 
-    this.guardarSoloDibujo = true;
-    this.menuCtrl.enable(false, 'menuZona');
-    this.menuCtrl.enable(false, 'menuEstablecimiento');
-    this.menuCtrl.enable(false, 'menuLote');
-    this.menuCtrl.enable(true, 'menuDibujando');
-    this.menuCtrl.enable(false, 'menuDibujoGuardado');
-    this.menuCtrl.enable(false, 'default'); 
+    //this.guardarSoloDibujo = true;
+    this.ActivarMenu('menuDibujando');
     this._gloabalesProvider.RedibujarElementoSeleccionado();
 
+  }
+
+
+  EntrarDefinirPunto(){
+    //this.guardarSoloDibujo = true;
+    this.ActivarMenu('menuDefinirPunto');   
+    this._mapaProvider.RemoverUltimoMarcador(); 
+    this._gloabalesProvider.RedibujarPuntoElemntoSeleccionado();
   }
 
   preguntarSalirSinGuardar(){
 
     let alert = this.alertCtrl.create({
-      title: 'Borrar',
+      title: 'Salir sin guardar',
+      message: 'Está seguro que quiere salir sin guardar?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: () => { 
+            this._gloabalesProvider.CancelarEdicion();       
+            this.ActivarMenuAnterior();
+          }
+        }
+      ]
+    });
+    alert.present(); 
+
+    
+  }
+
+  preguntarSalirSinGuardarPunto(){
+    let alert = this.alertCtrl.create({
+      title: 'Salir sin guardar',
       message: 'Está seguro que quiere salir sin guardar?',
       buttons: [
         {
@@ -303,62 +329,38 @@ export class MyApp {
         {
           text: 'Aceptar',
           handler: () => {        
-            this.SalirDibujo();
+            this.ActivarMenuAnterior();
+            this._gloabalesProvider.CancelarEdicionPunto();
           }
         }
       ]
     });
     alert.present(); 
-
-    
   }
 
-  SalirDibujo(){
-    this._gloabalesProvider.CancelarEdicion();
+  ActivarMenuAnterior(){
+    
     console.log("!!!!!!!!");
+    
     if(this._gloabalesProvider.elementoSeleccionado != undefined){
 
-      if(this._gloabalesProvider.elementoSeleccionado.tipo == "Zona"){
-        this.menuCtrl.enable(true, 'menuZona');
-        this.menuCtrl.enable(false, 'menuEstablecimiento');
-        this.menuCtrl.enable(false, 'menuLote');
-        this.menuCtrl.enable(false, 'menuDibujando');
-        this.menuCtrl.enable(false, 'menuDibujoGuardado');
-        this.menuCtrl.enable(false, 'default');
+      if(this._gloabalesProvider.elementoSeleccionado.tipo == "Zona"){       
+        this.ActivarMenu('menuZona');
       }
       else if(this._gloabalesProvider.elementoSeleccionado.tipo == "Campo"){
-        this.menuCtrl.enable(false, 'menuZona');
-        this.menuCtrl.enable(true, 'menuEstablecimiento');
-        this.menuCtrl.enable(false, 'menuLote');
-        this.menuCtrl.enable(false, 'menuDibujando');
-        this.menuCtrl.enable(false, 'menuDibujoGuardado');
-        this.menuCtrl.enable(false, 'default');
+        this.ActivarMenu('menuEstablecimiento');
       }
       else if(this._gloabalesProvider.elementoSeleccionado == "Lote"){
-        this.menuCtrl.enable(false, 'menuZona');
-        this.menuCtrl.enable(false, 'menuEstablecimiento');
-        this.menuCtrl.enable(true, 'menuLote');
-        this.menuCtrl.enable(false, 'menuDibujando');
-        this.menuCtrl.enable(false, 'menuDibujoGuardado');
-        this.menuCtrl.enable(false, 'default');
+        this.ActivarMenu('menuLote');
       }
 
       else{
-        this.menuCtrl.enable(false, 'menuZona');
-        this.menuCtrl.enable(false, 'menuEstablecimiento');
-        this.menuCtrl.enable(false, 'menuLote');
-        this.menuCtrl.enable(false, 'menuDibujando');
-        this.menuCtrl.enable(false, 'menuDibujoGuardado');
-        this.menuCtrl.enable(true, 'default');
+        this.ActivarMenu('default');
+        
       }
     }
     else{
-      this.menuCtrl.enable(false, 'menuZona');
-      this.menuCtrl.enable(false, 'menuEstablecimiento');
-      this.menuCtrl.enable(false, 'menuLote');
-      this.menuCtrl.enable(false, 'menuDibujando');
-      this.menuCtrl.enable(false, 'menuDibujoGuardado');
-      this.menuCtrl.enable(true, 'default');
+      this.ActivarMenu('default');
     }
   }
 
@@ -368,39 +370,39 @@ export class MyApp {
 
     if(this._gloabalesProvider.elementoSeleccionado != undefined){
       if(this._gloabalesProvider.elementoSeleccionado.tipo == "Zona"){
-        this.menuCtrl.enable(true, 'menuZona');
-        this.menuCtrl.enable(false, 'menuEstablecimiento');
-        this.menuCtrl.enable(false, 'menuLote');
-        this.menuCtrl.enable(false, 'menuDibujando');
-        this.menuCtrl.enable(false, 'menuDibujoGuardado');
-        this.menuCtrl.enable(false, 'default');
+        this.ActivarMenu('menuZona');
       }
       if(this._gloabalesProvider.elementoSeleccionado.tipo == "Campo"){
-        this.menuCtrl.enable(false, 'menuZona');
-        this.menuCtrl.enable(true, 'menuEstablecimiento');
-        this.menuCtrl.enable(false, 'menuLote');
-        this.menuCtrl.enable(false, 'menuDibujando');
-        this.menuCtrl.enable(false, 'menuDibujoGuardado');
-        this.menuCtrl.enable(false, 'default');
+        this.ActivarMenu('menuEstablecimiento');
       }
       if(this._gloabalesProvider.elementoSeleccionado == "Lote"){
-        this.menuCtrl.enable(false, 'menuZona');
-        this.menuCtrl.enable(false, 'menuEstablecimiento');
-        this.menuCtrl.enable(true, 'menuLote');
-        this.menuCtrl.enable(false, 'menuDibujando');
-        this.menuCtrl.enable(false, 'menuDibujoGuardado');
-        this.menuCtrl.enable(false, 'default');
+        this.ActivarMenu('menuLote');
       }     
     }
     else{
-      this.menuCtrl.enable(false, 'menuZona');
-        this.menuCtrl.enable(false, 'menuEstablecimiento');
-        this.menuCtrl.enable(false, 'menuLote');
-        this.menuCtrl.enable(false, 'menuDibujando');
-        this.menuCtrl.enable(false, 'menuDibujoGuardado');
-        this.menuCtrl.enable(true, 'default');
+        this.ActivarMenu('default');
     }
     //this.presentToast("El dibujo del sector ha sido guardado");
+   }
+
+   GuardarPunto(){
+     
+     this._gloabalesProvider.GuardarPuntoEnServidor();
+
+     if(this._gloabalesProvider.elementoSeleccionado != undefined){
+      if(this._gloabalesProvider.elementoSeleccionado.tipo == "Zona"){
+        this.ActivarMenu('menuZona');
+      }
+      if(this._gloabalesProvider.elementoSeleccionado.tipo == "Campo"){
+        this.ActivarMenu('menuEstablecimiento');
+      }
+      if(this._gloabalesProvider.elementoSeleccionado == "Lote"){
+        this.ActivarMenu('menuLote');
+      }     
+    }
+    else{
+        this.ActivarMenu('default');
+    }
    }
 
 
@@ -423,7 +425,7 @@ export class MyApp {
             this.presentToast("Eliminada");
             
             this._gloabalesProvider.BorrarDibujoSeleccionado();
-            this.SalirDibujo();
+            this.ActivarMenuAnterior();
           }
         }
       ]
@@ -473,7 +475,6 @@ export class MyApp {
       
     
   }
-  
 
 
   presentAgregarVisita(){  

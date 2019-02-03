@@ -31,54 +31,18 @@ export class ComentarioProvider {
 						 .map(res => res.json());
   }
 
-  getByEstablecimiento(idEstablecimiento){
-    let params = 'idEstablecimiento='+idEstablecimiento;
-		let headers = new Headers({
-			'Content-Type':'application/x-www-form-urlencoded', 
-			'Authorization': 'Bearer ' + localStorage.getItem('token')
-		});
-
-		return this._http.post(this.url+'/get/establecimiento', params, {headers: headers})
-						 .map(res => res.json());
+  getByEstablecimiento(id){
+    return this._http.get(this.url+'/establecimientos/'+id).map(res => res.json());
   }
 
-  getByLote(idLote){
-    let params = 'idLote='+idLote;
-		let headers = new Headers({
-			'Content-Type':'application/x-www-form-urlencoded', 
-			'Authorization': 'Bearer ' + localStorage.getItem('token')
-		});
-
-		return this._http.post(this.url+'/get/lote', params, {headers: headers})
-						 .map(res => res.json());
-  }
-
-  get3ByEstablecimiento(idEstablecimiento){
-    let params = 'idEstablecimiento='+idEstablecimiento;
-		let headers = new Headers({
-			'Content-Type':'application/x-www-form-urlencoded', 
-			'Authorization': 'Bearer ' + localStorage.getItem('token')
-		});
-
-		return this._http.post(this.url+'/get/establecimiento/top3', params, {headers: headers})
-						 .map(res => res.json());
-	}
-	
-	get3ByLote(idLote){
-    let params = 'idLote='+idLote;
-		let headers = new Headers({
-			'Content-Type':'application/x-www-form-urlencoded', 
-			'Authorization': 'Bearer ' + localStorage.getItem('token')
-		});
-
-		return this._http.post(this.url+'/get/lote/top3', params, {headers: headers})
-						 .map(res => res.json());
+  getByLote(id){
+    return this._http.get(this.url+'/lotes/'+id).map(res => res.json());
   }
 
   put(comentario){   
 
     let params =  "json="+JSON.stringify(comentario);	
-
+		console.log(params);
 		let headers = new Headers({
 			'Content-Type':'application/x-www-form-urlencoded', 
 			'Authorization': 'Bearer ' + localStorage.getItem('token')

@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
 //@IonicPage()
 
 class ElementoTabla {    
-  constructor(
+  constructor( 
       public id: number,
       public nombreLote:String,
       public nombreEstablecimiento:String,

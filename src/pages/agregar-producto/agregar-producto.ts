@@ -23,6 +23,7 @@ export class AgregarProductoPage {
   public productoAgregado:ProductoAgregado;
 
   public dosis:number;
+  public unidad:string;
   
   constructor(
     public navCtrl: NavController, 
@@ -30,7 +31,7 @@ export class AgregarProductoPage {
     public _globalesProvider:GlobalesProvider,
     public viewCtrl: ViewController) {
 
-      this.productoAgregado = new ProductoAgregado(0,"",0,0);
+      this.productoAgregado = new ProductoAgregado(0,"",0,0,"");
   }
 
   ionViewDidLoad() {
@@ -47,6 +48,7 @@ export class AgregarProductoPage {
     this.productoAgregado.CD_GRW_PRODUCTO = this.productoSeleccionado.CD_GRW_PRODUCTO;
     this.productoAgregado.DS_GRW_PRODUCTO = this.productoSeleccionado.DS_GRW_PRODUCTO;
     this.productoAgregado.dosis = this.dosis;
+    this.productoAgregado.unidad = this.unidad;
     this.viewCtrl.dismiss(this.productoAgregado);
   }
 

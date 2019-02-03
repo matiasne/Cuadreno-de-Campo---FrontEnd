@@ -63,6 +63,7 @@ export class ZonasPage {
   public mostrarMenu:String;
 
   private subscriptionElementoSeleccionado:Subscription;
+  private subscriptionElementoEnCreacion:Subscription;
   private subscriptionCamapanas:Subscription;
   private subscriptionCosechas:Subscription;
   private subscriptionIngenieros:Subscription;
@@ -94,7 +95,7 @@ export class ZonasPage {
   public showPanelCampo:boolean = false;
   public revisionPanel:Revision;
 
-
+  public modoEdicion:boolean = false;
   public zonas:any;
 
   showLevel1 = null;
@@ -162,6 +163,19 @@ export class ZonasPage {
         this.AbrirMenuDesplegable(data);
       }
     )
+
+    this.subscriptionElementoEnCreacion = this._globalesProvider.ObsElementoEnCreacion().subscribe(
+      data =>{
+        console.log(data);
+        if(data != undefined)
+          this.modoEdicion = true;
+        else{
+          this.modoEdicion = false;
+        }        
+      }
+    )
+
+
     
     //Actualiza si se ha realizado algún cambio
     this.subscriptionCosechas = this._globalesProvider.ObsCosechas().subscribe(
@@ -240,8 +254,15 @@ export class ZonasPage {
 
   AbrirMenuDesplegable(elemento){
 
-    if(elemento == undefined)
+    if(elemento == undefined){
+      this.showLevel1 = null;
+      this.showLevel2 = null;
+      this.elemento3Activo = null;
+      this.OcultarPanelCampo();
+      this.OcultarPanelLote();
       return;
+    }
+     
 
     console.log(elemento);
 
@@ -263,6 +284,7 @@ export class ZonasPage {
             this.showLevel1 = 'idx'+indexA;
             this.showLevel2 = 'idx'+indexA+'idx'+indexB;
             this.elemento3Activo = null;
+            
             this.MostrarPanelCampo(campo);
             this.OcultarPanelLote();
           }
@@ -294,6 +316,7 @@ export class ZonasPage {
   }
 
   IrACampo(campo){
+    
     this._globalesProvider.SetearElementoSeleccionado(campo);
   }
 

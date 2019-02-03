@@ -54,7 +54,7 @@ export class ClimaticoPage {
 
     
 
-    if(this._globalesProvider.elementoSeleccionado.tipo == "Lote"){
+    /*if(this._globalesProvider.elementoSeleccionado.tipo == "Lote"){
       this.lluviaSeteada.idLote = this._globalesProvider.elementoSeleccionado.id
       this.lluviaSeteada.idEstablecimiento = this._globalesProvider.elementoSeleccionado.idEstablecimiento;
     }
@@ -62,10 +62,28 @@ export class ClimaticoPage {
     if(this._globalesProvider.elementoSeleccionado.tipo == "Campo"){
       this.lluviaSeteada.idLote = 0;
       this.lluviaSeteada.idEstablecimiento = this._globalesProvider.elementoSeleccionado.id;
-    } 
+    } */
+
+
+    if(this._globalesProvider.elementoSeleccionado.tipo == "Campo")
+      this.lluviaSeteada.idEstablecimiento = this._globalesProvider.elementoSeleccionado.CD_CAMPO;
+    else
+      this.lluviaSeteada.idEstablecimiento = 0;
+
+
+    if(this._globalesProvider.elementoSeleccionado.tipo == "Lote"){
+      this.lluviaSeteada.idLote = this._globalesProvider.elementoSeleccionado.CD_LOTE;
+      this.lluviaSeteada.idEstablecimiento = this._globalesProvider.elementoSeleccionado.idEstablecimiento;
+    }
+    else
+      this.lluviaSeteada.idLote = 0;
     
     this.ObtenerLluvias();
 
+  }
+
+  VerGrafico(){
+    this.ObtenerLluvias();
   }
 
   InicilizarGráfico(){

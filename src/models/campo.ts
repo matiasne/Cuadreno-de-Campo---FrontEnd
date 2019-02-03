@@ -5,6 +5,7 @@ export class Campo {
     public tipo:String;
     public contienePoligono:String;
     public hectareasTotal:number;
+    public marcador:any;
 
     public CD_LUGAR: number;
     public CD_CAMPO:number;
@@ -32,6 +33,7 @@ export class Campo {
     public lotes:any;
     public dsProvincia:String;
     public dsLocalidad:String;
+    public urlKmz:String;
     //ds_domicilio viene descripto 
     
     constructor(

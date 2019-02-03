@@ -24,6 +24,8 @@ import { Concepto } from '../../models/concepto';
 import { ConceptosProvider } from '../conceptos/conceptos';
 import { Entidad } from '../../models/entidad';
 import { EntidadesProvider } from '../entidad/entidad';
+import { MarcadoresProvider } from '../marcadores/marcadores';
+import { Marcador } from '../../models/marcador';
 
 /*
   Generated class for the SeleccionadoProvider provider.
@@ -42,6 +44,7 @@ export class GlobalesProvider {
   public elementoSeleccionado:any;
   public elementoEnCreacion:any;
 
+  public subsElementoEnCreacion = new Subject<any>();
   public subsElementoSeleccionado = new Subject<any>();
   public subsCosechas = new Subject<any>();
   public subsIngenieros = new Subject<any>();
@@ -74,7 +77,8 @@ export class GlobalesProvider {
     public _subgruposProvider:SubgruposProvider,
     public _gruposProvider:GruposProvider,
     public _conceptosProvider:ConceptosProvider,
-    public _entidadesProvider:EntidadesProvider
+    public _entidadesProvider:EntidadesProvider,
+    public _marcadoresProvider:MarcadoresProvider
   ) {
     this.elementos = new Array();
     this.CosechaSeleccionada = new Cosecha(0,"","","","","");
@@ -131,6 +135,7 @@ export class GlobalesProvider {
           console.log(this.ingenieros);
           this.subsIngenieros.next(this.ingenieros); //Para el combo selector
           this.SetearIngenieroSeleccionado(this.GetIngenieroByID(localStorage.getItem("idEntidadLogueadaSQL")));
+          
           this.ObtenerDesdeServidor();
         }
         else{
@@ -248,6 +253,10 @@ export class GlobalesProvider {
     return this.subsElementoSeleccionado.asObservable();
   }
 
+  ObsElementoEnCreacion():Observable<any>{
+    return this.subsElementoEnCreacion.asObservable();
+  }
+
   ObsCosechas():Observable<any>{
     return this.subsCosechas.asObservable();
   }
@@ -301,6 +310,13 @@ export class GlobalesProvider {
 
   public ObtenerSoloLotes(){
     var lotes = this.elementos.filter( elemento => elemento.tipo === "Lote");
+    console.log("Solo lotes:")
+    console.log(lotes);
+    return lotes;
+  }
+
+  public ObtenerSoloLotesCampo(idCampo){
+    var lotes = this.elementos.filter( elemento => (elemento.tipo === "Lote" && elemento.CD_CAMPO == idCampo));
     return lotes;
   }
 
@@ -308,7 +324,7 @@ export class GlobalesProvider {
   //Seleccionada se dibujan
   private AgregarElemento(elemento){
     
-    this._mapaProvider.CrearPoligono(elemento); //Creo el poligono  
+    //this._mapaProvider.CrearPoligono(elemento); //Creo el poligono  
     
     //Aca fijarme si existe primero
     var existe = this.GetElementoByID(elemento);
@@ -387,38 +403,54 @@ export class GlobalesProvider {
       console.log("Contenedor: ");
       console.log(campoContenedor);
       return campoContenedor;
-
     }
   }
 
-  public SetearElementoSeleccionado(elemento){   
+  public SetearMarcador(elemento){
+    this._marcadoresProvider.getMarcadorCampo(elemento.CD_CAMPO).subscribe(
+      response=>{
+        console.log(response);  
+        this._mapaProvider.RemoverUltimoMarcador(); 
+        if(response.data[0] != undefined)     
+          this._mapaProvider.AddMarcadorCampo(response.data[0].latitud, response.data[0].longitud);
+      },
+      error=>{
 
-    
+      }
+    )
+  }
+
+
+  public SetearElementoSeleccionado(elemento){  
+
     if(elemento != undefined){
+
+      this.SetearMarcador(elemento);
 
       if(this.elementoSeleccionado != undefined)
         this._mapaProvider.DesenfocarPoligono(this.elementoSeleccionado);
 
       this.subsElementoSeleccionado.next(elemento);
-      this.elementoSeleccionado = elemento;
-
-      
+      this.elementoSeleccionado = elemento;   
 
       console.log("Elemento Seleccionado:")
       console.log(this.elementoSeleccionado);      
     
-      this._mapaProvider.FocusPoligono(elemento);  
+      this._mapaProvider.FocusPoligono(elemento);
+      
     }
   }
 
   public BorrarDibujoSeleccionado(){
-    this.BorrarDibujoServidor(this.elementoSeleccionado);      
+    this.BorrarDibujoServidor(this.elementoSeleccionado);    
+    this.CancelarEdicion();  
   }
 
   //Aquí el elemento es editado y no tiene aún coordenadas
   //Siguiente paso es GuardarEnServidor
   public CrearElementoNuevo(elemento){
     this.elementoEnCreacion = elemento; 
+    this.subsElementoEnCreacion.next(elemento);
     console.log("Elemento en creacion:") 
     console.log(this.elementoEnCreacion);     
     this._mapaProvider.SacarClickTodo(this.elementos);
@@ -427,15 +459,34 @@ export class GlobalesProvider {
 
   public RedibujarElementoSeleccionado(){
     this.elementoEnCreacion = this.elementoSeleccionado;
+    this.subsElementoEnCreacion.next(this.elementoEnCreacion);
     this._mapaProvider.SacarClickTodo(this.elementos);
     this._mapaProvider.RedibujarPoligono(this.elementoEnCreacion);
   }
 
+  public RedibujarPuntoElemntoSeleccionado(){
+    this.elementoEnCreacion = this.elementoSeleccionado;
+    this.subsElementoEnCreacion.next(this.elementoEnCreacion);
+    this._mapaProvider.SacarClickTodo(this.elementos);
+    this._mapaProvider.RedibujarPunto(this.elementoEnCreacion);
+    //!!!!
+  }
+
   public CancelarEdicion(){
-    this._mapaProvider.SalirEdicion();
+    this._mapaProvider.SalirEdicionDibujo();
+    this.subsElementoEnCreacion.next(undefined);
     this._mapaProvider.CrearPoligono(this.elementoSeleccionado);
     this._mapaProvider.AgregarClickTodo(this.elementos);
   }
+
+  public CancelarEdicionPunto(){
+    this.subsElementoEnCreacion.next(undefined);
+    this.subsElementoSeleccionado.next(undefined);
+    this._mapaProvider.SalirEdicionMarcador();
+    this._mapaProvider.AgregarClickTodo(this.elementos);    
+  }
+
+  
 
 
   obtenerFechaFormateada(date:Date){
@@ -475,9 +526,60 @@ export class GlobalesProvider {
     console.log(this.elementos);
     
     this.AgregarElemento(this.elementoEnCreacion);
-    this._mapaProvider.SalirEdicion();
+    
+    this._mapaProvider.SalirEdicionDibujo();
     this._mapaProvider.AgregarClickTodo(this.elementos);    
     this.subsElementoSeleccionado.next(undefined);
+    this.subsElementoEnCreacion.next(undefined);
+  }
+
+  public GuardarPuntoEnServidor(){
+
+    var marcadorMapa = this._mapaProvider.ObtenerMarcadorSeleccionado();
+    console.log(marcadorMapa);
+    var marcador:Marcador = new Marcador(0,0,0,"","");
+
+    if(this.elementoSeleccionado.tipo == "Zona"){
+      marcador.idZona = this.elementoSeleccionado.ID_LUGAR_ZONA; 
+    }
+
+    if(this.elementoSeleccionado.tipo == "Campo"){
+      marcador.idEstablecimiento = this.elementoSeleccionado.CD_CAMPO; 
+    }
+
+    if(this.elementoSeleccionado.tipo == "Lote"){
+      marcador.idLote = this.elementoSeleccionado.CD_LOTE; 
+    }
+
+       
+    marcador.latitud = marcadorMapa.getPosition().lat();
+    marcador.longitud = marcadorMapa.getPosition().lng();
+
+    console.log(marcador);    
+    this.CancelarEdicionPunto();
+    this._marcadoresProvider.deleteByCampo(marcador.idEstablecimiento).subscribe(
+      response=>{
+        console.log(response);
+        
+        this._marcadoresProvider.put(marcador).subscribe(
+          response =>{
+            console.log(response);
+                   
+          },
+          error =>{
+            alert("Error al guardar Observación");
+            console.log(<any>error);
+            
+          }
+        );
+      },
+      error=>{
+
+      }
+    )
+    
+    
+    
   }
 
 
@@ -556,7 +658,8 @@ export class GlobalesProvider {
            zona.campos = new Array(); 
 
            zona.nombre = zona.DS_LUGAR_ZONA;
-           this.ObtenerCoordenadasZona(zona);
+           this.AgregarElemento(zona);
+           //this.ObtenerCoordenadasZona(zona);
            this._loaderProvider.loaderOFF();
            if(localStorage.getItem('idPropiedad')=="48"){
             this._loaderProvider.loaderON();
@@ -635,7 +738,8 @@ export class GlobalesProvider {
     campo.hectareasTotal = 0;
     campo.DS_LUGAR_ZONA = zona.DS_LUGAR_ZONA;
 
-    this.ObtenerCoordenadasCampo(campo); 
+    //this.ObtenerCoordenadasCampo(campo); 
+    this.AgregarElemento(campo);
     this.ObtenerDetalleCampo(campo);
                             
     this._loteProvider.getByCampo(campo.CD_CAMPO).subscribe( //Obtengo todas las zonas
@@ -655,7 +759,8 @@ export class GlobalesProvider {
             lote.nombre = lote.DS_LOTE; 
             campo.hectareasTotal += Number(lote.QT_HECTAREAS);  
             console.log(campo.hectareasTotal); 
-            this.ObtenerCoordenadasLote(lote);  
+            this.AgregarElemento(lote);
+            //this.ObtenerCoordenadasLote(lote);  
             this.ObtenerUltimaRevisionLote(lote);        
             
           })
@@ -676,7 +781,9 @@ export class GlobalesProvider {
 
   private ObtenerCoordenadasZona(zona:Zona){  
     
-    this._coordenadaPoligonoProvider.getCoordenadasPoligonoZona(zona.ID_LUGAR_ZONA).subscribe(
+    this.AgregarElemento(zona);
+
+    /*this._coordenadaPoligonoProvider.getCoordenadasPoligonoZona(zona.ID_LUGAR_ZONA).subscribe(
       response=>{
 
         zona.coordenadasPoligono = new Array();
@@ -694,13 +801,13 @@ export class GlobalesProvider {
           console.log("No contiene poligono");
           zona.contienePoligono = "no"; 
         }
-        this.AgregarElemento(zona);
+        
         //SetearDatosPoligonothis.SetearDatosPoligono(zona,coordenadasPoligono);      
       },
       error=>{
 
       }
-    );
+    );*/
   }
 
   private ObtenerDetalleCampo(campo:Campo){
@@ -726,6 +833,8 @@ export class GlobalesProvider {
 
   private ObtenerCoordenadasCampo(campo:Campo){  
     
+    this.AgregarElemento(campo);
+
     this._coordenadaPoligonoProvider.getCoordenadasPoligonoCampo(campo.CD_CAMPO).subscribe(
     response=>{
 
@@ -743,7 +852,7 @@ export class GlobalesProvider {
         console.log(response.message);
         campo.contienePoligono = "no"; 
       }
-      this.AgregarElemento(campo);
+      
       //this.SetearDatosPoligono(campos,coordPoligono);    
     },
     error=>{
@@ -758,8 +867,7 @@ export class GlobalesProvider {
     
     this._coordenadaPoligonoProvider.getCoordenadasPoligonoLote(lote.CD_LOTE).subscribe(
     response=>{
-
-      if(response.code == '200'){         
+      if(response.code == '200'){       
 
         lote.coordenadasPoligono = new Array();
         lote.poligono = "";
